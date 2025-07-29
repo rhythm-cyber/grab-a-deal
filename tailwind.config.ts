@@ -52,6 +52,30 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				flipkart: {
+					DEFAULT: 'hsl(var(--flipkart))',
+					foreground: 'hsl(var(--flipkart-foreground))'
+				},
+				amazon: {
+					DEFAULT: 'hsl(var(--amazon))',
+					foreground: 'hsl(var(--amazon-foreground))'
+				},
+				jiomart: {
+					DEFAULT: 'hsl(var(--jiomart))',
+					foreground: 'hsl(var(--jiomart-foreground))'
+				},
+				myntra: {
+					DEFAULT: 'hsl(var(--myntra))',
+					foreground: 'hsl(var(--myntra-foreground))'
+				},
+				swiggy: {
+					DEFAULT: 'hsl(var(--swiggy))',
+					foreground: 'hsl(var(--swiggy-foreground))'
+				},
+				bigbasket: {
+					DEFAULT: 'hsl(var(--bigbasket))',
+					foreground: 'hsl(var(--bigbasket-foreground))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -89,6 +113,9 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
+			},
+			backgroundImage: {
+				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 			}
 		}
 	},

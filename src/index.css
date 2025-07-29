@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 250 40% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -17,7 +17,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 262 50% 60%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -34,9 +34,36 @@ All colors MUST be HSL.
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 262 50% 60%;
 
-    --radius: 0.5rem;
+    /* Platform Brand Colors */
+    --flipkart: 47 100% 50%;
+    --flipkart-foreground: 0 0% 100%;
+    
+    --amazon: 27 100% 50%;
+    --amazon-foreground: 0 0% 100%;
+    
+    --jiomart: 213 85% 50%;
+    --jiomart-foreground: 0 0% 100%;
+    
+    --myntra: 320 70% 60%;
+    --myntra-foreground: 0 0% 100%;
+    
+    --swiggy: 27 95% 55%;
+    --swiggy-foreground: 0 0% 100%;
+    
+    --bigbasket: 120 60% 50%;
+    --bigbasket-foreground: 0 0% 100%;
+
+    /* Deal Card Gradients */
+    --gradient-deal: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.8) 100%);
+    --gradient-premium: linear-gradient(135deg, hsl(45 100% 60%) 0%, hsl(35 100% 50%) 100%);
+    
+    /* Shadows */
+    --shadow-deal: 0 4px 20px -2px hsl(var(--primary) / 0.1);
+    --shadow-platform: 0 8px 30px -4px hsl(var(--primary) / 0.15);
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
