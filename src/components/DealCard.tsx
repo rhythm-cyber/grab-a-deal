@@ -1,17 +1,12 @@
-import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Star, ExternalLink, Lock, Unlock } from 'lucide-react';
+import { Star, ExternalLink } from 'lucide-react';
 import { Deal, Platform } from '@/types/deal';
-import { RazorpayService } from '@/services/razorpay';
-import { ApiService } from '@/services/api';
-import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
 interface DealCardProps {
   deal: Deal;
-  onUnlock?: (dealId: string) => void;
 }
 
 const platformConfigs: Record<Platform, { name: string; gradient: string }> = {
@@ -23,74 +18,14 @@ const platformConfigs: Record<Platform, { name: string; gradient: string }> = {
   bigbasket: { name: 'BigBasket', gradient: 'from-bigbasket to-bigbasket/80' },
 };
 
-export const DealCard = ({ deal, onUnlock }: DealCardProps) => {
-  const [isUnlocking, setIsUnlocking] = useState(false);
-  const [isUnlocked, setIsUnlocked] = useState(deal.isUnlocked || false);
-  const { toast } = useToast();
-
+export const DealCard = ({ deal }: DealCardProps) => {
   const platformConfig = platformConfigs[deal.platform];
   const discountPercent = deal.originalPrice 
     ? Math.round(((deal.originalPrice - deal.price) / deal.originalPrice) * 100)
     : deal.discount || 0;
 
-  const handleUnlock = async () => {
-    if (isUnlocked) {
-      // Already unlocked, open affiliate link
-      const affiliateUrl = RazorpayService.generateAffiliateUrl(deal.platform, deal.productUrl);
-      window.open(affiliateUrl, '_blank');
-      return;
-    }
-
-    setIsUnlocking(true);
-    
-    try {
-      const paymentData = await ApiService.createPaymentOrder(deal.id);
-      
-      await RazorpayService.processPayment(
-        paymentData,
-        async (response) => {
-          // Payment successful
-          const verified = await ApiService.verifyPayment(response);
-          
-          if (verified) {
-            setIsUnlocked(true);
-            onUnlock?.(deal.id);
-            
-            toast({
-              title: "Payment Successful!",
-              description: "Opening affiliate link in new tab...",
-            });
-
-            // Open affiliate link
-            const affiliateUrl = RazorpayService.generateAffiliateUrl(deal.platform, deal.productUrl);
-            setTimeout(() => {
-              window.open(affiliateUrl, '_blank');
-            }, 1000);
-          } else {
-            toast({
-              title: "Payment Verification Failed",
-              description: "Please contact support if amount was deducted.",
-              variant: "destructive",
-            });
-          }
-        },
-        (error) => {
-          toast({
-            title: "Payment Failed",
-            description: error.message || "Payment was cancelled or failed.",
-            variant: "destructive",
-          });
-        }
-      );
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to process payment. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsUnlocking(false);
-    }
+  const handleOpenDeal = () => {
+    window.open(deal.productUrl, '_blank');
   };
 
   return (
@@ -152,32 +87,13 @@ export const DealCard = ({ deal, onUnlock }: DealCardProps) => {
         </div>
         
         <Button
-          onClick={handleUnlock}
-          disabled={isUnlocking}
-          className={cn(
-            "w-full transition-all duration-200",
-            isUnlocked 
-              ? "bg-green-600 hover:bg-green-700 text-white" 
-              : "bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
-          )}
+          onClick={handleOpenDeal}
+          className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all duration-200"
         >
-          {isUnlocking ? (
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              Processing...
-            </div>
-          ) : isUnlocked ? (
-            <div className="flex items-center gap-2">
-              <Unlock className="w-4 h-4" />
-              Open Deal
-              <ExternalLink className="w-3 h-3" />
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Lock className="w-4 h-4" />
-              Unlock for ₹0.89
-            </div>
-          )}
+          <div className="flex items-center gap-2">
+            View Deal
+            <ExternalLink className="w-4 h-4" />
+          </div>
         </Button>
         
         {deal.category && (

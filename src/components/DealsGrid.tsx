@@ -3,11 +3,10 @@ import { DealCard } from './DealCard';
 
 interface DealsGridProps {
   deals: Deal[];
-  onUnlock?: (dealId: string) => void;
   isLoading?: boolean;
 }
 
-export const DealsGrid = ({ deals, onUnlock, isLoading }: DealsGridProps) => {
+export const DealsGrid = ({ deals, isLoading }: DealsGridProps) => {
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -39,7 +38,6 @@ export const DealsGrid = ({ deals, onUnlock, isLoading }: DealsGridProps) => {
         <DealCard
           key={deal.id}
           deal={deal}
-          onUnlock={onUnlock}
         />
       ))}
     </div>

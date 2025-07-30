@@ -7,18 +7,13 @@ const API_BASE_URL = process.env.NODE_ENV === 'production'
 export class ApiService {
   static async fetchDeals(platform?: Platform): Promise<Deal[]> {
     try {
-      const endpoint = platform ? `/${platform}-deals` : '/deals';
-      const response = await fetch(`${API_BASE_URL}${endpoint}`);
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch deals: ${response.statusText}`);
-      }
-      
-      return await response.json();
+      // For now, return empty array since we need a real Amazon API integration
+      // This will require a backend service to scrape Amazon deals due to CORS restrictions
+      console.log('Amazon deals fetching not yet implemented - requires backend API');
+      return [];
     } catch (error) {
       console.error('Error fetching deals:', error);
-      // Return mock data for development
-      return this.getMockDeals(platform);
+      return [];
     }
   }
 

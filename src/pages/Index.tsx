@@ -4,6 +4,7 @@ import { ApiService } from '@/services/api';
 import { Header } from '@/components/Header';
 import { PlatformFilter } from '@/components/PlatformFilter';
 import { DealsGrid } from '@/components/DealsGrid';
+import { Footer } from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
@@ -48,13 +49,6 @@ const Index = () => {
     );
   };
 
-  const handleUnlock = (dealId: string) => {
-    setDeals(prev => 
-      prev.map(deal => 
-        deal.id === dealId ? { ...deal, isUnlocked: true } : deal
-      )
-    );
-  };
 
   const getDealCounts = (): Record<Platform, number> => {
     const counts: Record<Platform, number> = {
@@ -86,35 +80,37 @@ const Index = () => {
   }, [deals, selectedPlatforms]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        <Header
-          totalDeals={filteredDeals.length}
-          lastUpdated={lastUpdated}
-          onRefresh={() => loadDeals(false)}
-          isRefreshing={isRefreshing}
-        />
+    <div className="min-h-screen bg-background flex flex-col">
+      <div className="flex-1">
+        <div className="container mx-auto px-4 py-8">
+          <Header
+            totalDeals={filteredDeals.length}
+            lastUpdated={lastUpdated}
+            onRefresh={() => loadDeals(false)}
+            isRefreshing={isRefreshing}
+          />
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <div className="lg:col-span-1">
-            <div className="sticky top-8">
-              <PlatformFilter
-                selectedPlatforms={selectedPlatforms}
-                onPlatformToggle={handlePlatformToggle}
-                dealCounts={getDealCounts()}
-              />
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div className="lg:col-span-1">
+              <div className="sticky top-8">
+                <PlatformFilter
+                  selectedPlatforms={selectedPlatforms}
+                  onPlatformToggle={handlePlatformToggle}
+                  dealCounts={getDealCounts()}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="lg:col-span-3">
+            <div className="lg:col-span-3">
             <DealsGrid
               deals={filteredDeals}
-              onUnlock={handleUnlock}
               isLoading={isLoading}
             />
+            </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
